@@ -23,7 +23,7 @@ class ApplicationNotInstantiated extends \LogicException
 	/**
 	 * @inheritdoc
 	 */
-	public function __construct($message = self::DEFAULT_MESSAGE, $code = 500, \Exception $previous = null)
+	public function __construct($message = self::DEFAULT_MESSAGE, $code = 500, \Throwable $previous = null)
 	{
 		parent::__construct($message, $code, $previous);
 	}

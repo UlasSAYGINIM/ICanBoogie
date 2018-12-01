@@ -26,7 +26,7 @@ class SessionWithEvent extends Session
 	 *
 	 * @return static
 	 */
-	static public function for_app(Application $app)
+	static public function for_app(Application $app): self
 	{
 		return self::$instance ?: self::$instance = new static($app->config[AppConfig::SESSION]);
 	}
@@ -36,7 +36,7 @@ class SessionWithEvent extends Session
 	 *
 	 * Fires `ICanBoogie\Session::start` event of class {@link Session\StartEvent}.
 	 */
-	public function start()
+	public function start(): bool
 	{
 		$started = parent::start();
 

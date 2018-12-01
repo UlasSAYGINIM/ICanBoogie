@@ -33,10 +33,7 @@ class RunEvent extends Event
 	 */
 	private $request;
 
-	/**
-	 * @return Request
-	 */
-	protected function get_request()
+	protected function get_request(): Request
 	{
 		return $this->request;
 	}

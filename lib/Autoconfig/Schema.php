@@ -28,15 +28,15 @@ class Schema
 	 *
 	 * @param string $pathname
 	 *
-	 * @return mixed
+	 * @return object
 	 */
-	static public function read($pathname)
+	static public function read(string $pathname): object
 	{
-		$json = file_get_contents($pathname);
+		$json = \file_get_contents($pathname);
 
 		JsonFile::parseJson($json, $pathname);
 
-		return json_decode($json);
+		return \json_decode($json);
 	}
 
 	/**
@@ -46,16 +46,16 @@ class Schema
 	 */
 	static public function normalize_data($data)
 	{
-		if ($data && is_array($data))
+		if ($data && \is_array($data))
 		{
-			array_walk($data, function (&$data) {
+			\array_walk($data, function (&$data) {
 				$data = self::normalize_data($data);
 			});
 
-			reset($data);
-			$key = key($data);
+			\reset($data);
+			$key = \key($data);
 
-			if (is_scalar($key) && !is_numeric($key))
+			if (\is_scalar($key) && !\is_numeric($key))
 			{
 				$data = (object) $data;
 			}
@@ -93,9 +93,9 @@ class Schema
 	 * @param mixed $data Data to validate.
 	 * @param string $pathname The pathname to the file where the data is defined.
 	 *
-	 * @throws \Exception when the data is not valid.
+	 * @throws \Throwable when the data is not valid.
 	 */
-	public function validate($data, $pathname)
+	public function validate($data, string $pathname)
 	{
 		$validator = $this->validator;
 
@@ -109,7 +109,7 @@ class Schema
 			{
 				$errors .= "\n- " . ($error['property'] ? $error['property'] . ': ' : '') . $error['message'];
 			}
-var_dump($data);
+
 			throw new \Exception("`$pathname` does not match the expected JSON schema:\n$errors");
 		}
 	}
@@ -119,11 +119,11 @@ var_dump($data);
 	 *
 	 * @param string $pathname The pathname to the JSON file to validate.
 	 *
-	 * @throws \Exception when the data is not valid.
+	 * @throws \Throwable when the data is not valid.
 	 *
 	 * @see validate()
 	 */
-	public function validate_file($pathname)
+	public function validate_file(string $pathname): void
 	{
 		$data = self::read($pathname);
 

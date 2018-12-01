@@ -23,7 +23,7 @@ class Hooks
 	 *
 	 * @param Event $event
 	 */
-	static public function on_autoload_dump(Event $event)
+	static public function on_autoload_dump(Event $event): void
 	{
 		$composer = $event->getComposer();
 		$package = $composer->getPackage();
@@ -33,7 +33,7 @@ class Hooks
 		$sorted = FakeAutoloadGenerator::sort_package_map($generator, $packageMap);
 
 		$vendor_dir = $composer->getConfig()->get('vendor-dir');
-		$destination = realpath($vendor_dir) . "/icanboogie/autoconfig.php";
+		$destination = \realpath($vendor_dir) . "/icanboogie/autoconfig.php";
 		$config = new AutoconfigGenerator($sorted, $destination);
 		$config();
 	}
@@ -43,11 +43,11 @@ class Hooks
 	 *
 	 * @param array $autoconfig
 	 */
-	static public function filter_autoconfig(array &$autoconfig)
+	static public function filter_autoconfig(array &$autoconfig): void
 	{
 		foreach ($autoconfig[Autoconfig::APP_PATHS] as $directory)
 		{
-			if (file_exists($directory . 'config'))
+			if (\file_exists($directory . 'config'))
 			{
 				$autoconfig[Autoconfig::CONFIG_PATH][$directory . 'config'] = Autoconfig::CONFIG_WEIGHT_APP;
 			}
